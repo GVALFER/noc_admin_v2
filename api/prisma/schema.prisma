@@ -1,0 +1,213 @@
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider = "mysql"
+    url      = env("DB_URL")
+}
+
+model users {
+    id         String     @id @default(uuid()) @db.VarChar(255)
+    name       String     @db.VarChar(255)
+    role       UserRole   @default(USER)
+    type       UserType   @default(INDIVIDUAL)
+    status     UserStatus @default(PENDING)
+    created_at DateTime   @default(now()) @db.Timestamp(0)
+    updated_at DateTime?  @db.Timestamp(0)
+
+    accounts user_accounts[]
+
+    @@index([created_at])
+    @@index([updated_at])
+    @@index([role])
+    @@index([type])
+}
+
+model user_accounts {
+    id            String          @id @default(uuid()) @db.VarChar(255)
+    user_id       String          @db.VarChar(255)
+    name          String          @db.VarChar(255)
+    email         String          @unique @db.VarChar(255)
+    phone         String?         @db.VarChar(255)
+    role          UserAccountRole @default(MEMBER)
+    status        UserStatus      @default(ACTIVE)
+    hash          String          @db.VarChar(255)
+    notifications Boolean         @default(true)
+    created_at    DateTime        @default(now()) @db.Timestamp(0)
+    updated_at    DateTime?       @db.Timestamp(0)
+
+    user_sessions user_sessions[]
+    user          users           @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+    @@index([user_id])
+    @@index([created_at])
+    @@index([updated_at])
+    @@index([role])
+    @@index([email])
+}
+
+model user_sessions {
+    id         String    @id @default(uuid()) @db.VarChar(255)
+    account_id String    @db.VarChar(255)
+    token      String    @unique @db.VarChar(255)
+    ip         String?   @db.VarChar(255)
+    country    String?   @db.VarChar(255)
+    org        String?   @db.VarChar(255)
+    agent      String?   @db.VarChar(255)
+    expires_at DateTime  @db.Timestamp(0)
+    created_at DateTime  @default(now()) @db.Timestamp(0)
+    updated_at DateTime? @db.Timestamp(0)
+
+    account user_accounts @relation(fields: [account_id], references: [id], onDelete: Cascade)
+
+    @@index([account_id])
+    @@index([expires_at])
+    @@index([created_at])
+    @@index([updated_at])
+}
+
+enum UserStatus {
+    ACTIVE
+    INACTIVE
+    SUSPENDED
+    PENDING
+    DELETED
+}
+
+enum UserRole {
+    USER
+    ADMIN
+}
+
+enum UserType {
+    COMPANY
+    INDIVIDUAL
+}
+
+enum UserAccountRole {
+    OWNER
+    ADMIN
+    MEMBER
+}
+
+// model users {
+//     id            String    @id @default(uuid()) @db.VarChar(255)
+//     name          String    @db.VarChar(255)
+//     email         String    @unique @db.VarChar(255)
+//     image         String?   @db.VarChar(255)
+//     emailVerified Boolean   @default(false)
+//     createdAt     DateTime  @default(now()) @db.Timestamp(0)
+//     updatedAt     DateTime? @db.Timestamp(0)
+
+//     sessions    user_sessions[]
+//     accounts    user_accounts[]
+//     members     user_members[]
+//     invitations user_invitations[]
+
+//     @@index([createdAt])
+//     @@index([updatedAt])
+//     @@index([emailVerified])
+// }
+
+// model user_sessions {
+//     id                   String   @id @default(uuid()) @db.VarChar(255)
+//     expiresAt            DateTime
+//     token                String   @unique @db.VarChar(255)
+//     createdAt            DateTime @default(now()) @db.Timestamp(0)
+//     updatedAt            DateTime @db.Timestamp(0)
+//     ipAddress            String?  @db.VarChar(255)
+//     userAgent            String?  @db.VarChar(255)
+//     userId               String   @db.VarChar(255)
+//     activeOrganizationId String?  @db.VarChar(255)
+
+//     organization user_organizations? @relation(fields: [activeOrganizationId], references: [id])
+//     user         users               @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+//     @@index([expiresAt])
+//     @@index([userId])
+//     @@index([createdAt])
+//     @@index([activeOrganizationId])
+// }
+
+// model user_accounts {
+//     id                    String    @id @default(uuid()) @db.VarChar(255)
+//     accountId             String    @db.VarChar(255)
+//     providerId            String    @db.VarChar(255)
+//     userId                String
+//     accessToken           String?   @db.Text
+//     refreshToken          String?   @db.Text
+//     idToken               String?   @db.Text
+//     accessTokenExpiresAt  DateTime?
+//     refreshTokenExpiresAt DateTime?
+//     scope                 String?   @db.Text
+//     password              String?   @db.VarChar(255)
+//     createdAt             DateTime  @default(now()) @db.Timestamp(0)
+//     updatedAt             DateTime  @db.Timestamp(0)
+
+//     user users @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+//     @@unique([providerId, accountId])
+//     @@index([userId])
+// }
+
+// model user_verifications {
+//     id         String    @id @default(uuid()) @db.VarChar(255)
+//     identifier String    @db.VarChar(255)
+//     value      String    @db.Text
+//     expiresAt  DateTime
+//     createdAt  DateTime? @default(now()) @db.Timestamp(0)
+//     updatedAt  DateTime? @db.Timestamp(0)
+
+//     @@index([identifier])
+//     @@index([expiresAt])
+// }
+
+// model user_organizations {
+//     id        String   @id @default(uuid()) @db.VarChar(255)
+//     name      String   @db.VarChar(255)
+//     slug      String?
+//     createdAt DateTime @default(now()) @db.Timestamp(0)
+//     metadata  Json?
+
+//     members       user_members[]
+//     invitations   user_invitations[]
+//     user_sessions user_sessions[]
+
+//     @@unique([slug])
+//     @@index([createdAt])
+// }
+
+// model user_members {
+//     id             String   @id @default(uuid()) @db.VarChar(255)
+//     organizationId String   @db.VarChar(255)
+//     userId         String   @db.VarChar(255)
+//     role           String   @db.VarChar(255)
+//     createdAt      DateTime @default(now()) @db.Timestamp(0)
+
+//     organization user_organizations @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+//     user         users              @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+//     @@unique([organizationId, userId])
+//     @@index([organizationId])
+//     @@index([userId])
+//     @@index([createdAt])
+// }
+
+// model user_invitations {
+//     id             String   @id @default(uuid()) @db.VarChar(255)
+//     organizationId String   @db.VarChar(255)
+//     email          String   @db.VarChar(255)
+//     role           String?  @db.VarChar(255)
+//     status         String   @db.VarChar(255)
+//     inviterId      String   @db.VarChar(255)
+//     expiresAt      DateTime @default(now()) @db.Timestamp(0)
+
+//     organization user_organizations @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+//     user         users              @relation(fields: [inviterId], references: [id], onDelete: Cascade)
+
+//     @@index([organizationId])
+//     @@index([expiresAt])
+//     @@index([inviterId])
+//     @@index([email])
+// }

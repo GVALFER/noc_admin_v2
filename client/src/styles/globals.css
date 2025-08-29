@@ -18,6 +18,8 @@
     --accent: oklch(0.95 0.03 233.56);
     --accent-foreground: oklch(0.38 0.14 265.59);
     --destructive: oklch(0.64 0.21 25.39);
+    --success: oklch(0.6 0.25 145.8);
+    --success-foreground: oklch(1 0 0);
     --border: oklch(0.93 0.01 261.82);
     --input: oklch(0.93 0.01 261.82);
     --ring: oklch(0.62 0.19 259.76);
@@ -67,6 +69,8 @@
     --accent: oklch(0.38 0.14 265.59);
     --accent-foreground: oklch(0.88 0.06 254.63);
     --destructive: oklch(0.64 0.21 25.39);
+    --success: oklch(0.7 0.25 145.8);
+    --success-foreground: oklch(1 0 0);
     --border: oklch(0.37 0 0);
     --input: oklch(0.37 0 0);
     --ring: oklch(0.62 0.19 259.76);
@@ -110,6 +114,8 @@
     --color-accent: var(--accent);
     --color-accent-foreground: var(--accent-foreground);
     --color-destructive: var(--destructive);
+    --color-success: var(--success);
+    --color-success-foreground: var(--success-foreground);
     --color-border: var(--border);
     --color-input: var(--input);
     --color-ring: var(--ring);
@@ -144,4 +150,197 @@
     --shadow-lg: var(--shadow-lg);
     --shadow-xl: var(--shadow-xl);
     --shadow-2xl: var(--shadow-2xl);
+}
+
+/* Prose styles markdown */
+.prose {
+    color: var(--color-foreground);
+}
+
+.prose h1,
+.prose h2,
+.prose h3,
+.prose h4,
+.prose h5,
+.prose h6 {
+    color: var(--color-foreground);
+    font-weight: 600;
+    margin-top: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.prose h1 {
+    font-size: 1.875rem;
+    line-height: 2.25rem;
+}
+
+.prose h2 {
+    font-size: 1.5rem;
+    line-height: 2rem;
+}
+
+.prose h3 {
+    font-size: 1.25rem;
+    line-height: 1.75rem;
+}
+
+.prose p {
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.prose ul,
+.prose ol {
+    padding-left: 1rem;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.prose blockquote {
+    border-left: 4px solid var(--color-border);
+    padding-left: 1rem;
+    margin: 1rem 0;
+    font-style: italic;
+    color: var(--color-muted-foreground);
+}
+
+.prose code {
+    background-color: var(--color-muted);
+    padding: 0.125rem 0.25rem;
+    border-radius: 0.25rem;
+    font-size: 0.875rem;
+    font-family: var(--font-mono);
+}
+
+.prose pre {
+    background-color: var(--color-muted);
+    padding: 1rem;
+    border-radius: 0.5rem;
+    overflow-x: auto;
+    margin: 1rem 0;
+}
+
+.prose pre code {
+    background-color: transparent;
+    padding: 0;
+    border-radius: 0;
+}
+
+.prose img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 0.5rem;
+    margin: 1rem 0;
+}
+
+.prose a {
+    color: var(--color-primary);
+    text-decoration: underline;
+}
+
+.prose a:hover {
+    text-decoration: none;
+}
+
+.prose strong {
+    font-weight: 600;
+}
+
+.prose em {
+    font-style: italic;
+}
+
+/*
+Highlight.js styles
+Adapted to use CSS variables for theming
+*/
+pre code.hljs {
+    display: block;
+    overflow-x: auto;
+    padding: 1em;
+}
+code.hljs {
+    padding: 3px 5px;
+}
+.hljs {
+    color: var(--color-foreground);
+    background: var(--color-background);
+}
+.hljs-subst,
+.hljs-title {
+    font-weight: normal;
+    color: var(--color-foreground);
+}
+.hljs-title.function_ {
+    color: var(--color-accent-foreground);
+}
+.hljs-code,
+.hljs-comment,
+.hljs-quote {
+    color: var(--color-muted-foreground);
+    font-style: italic;
+}
+.hljs-meta {
+    color: var(--color-success);
+}
+.hljs-section {
+    color: var(--color-primary);
+}
+.hljs-variable.language_,
+.hljs-symbol,
+.hljs-selector-class,
+.hljs-selector-id,
+.hljs-selector-tag,
+.hljs-template-tag,
+.hljs-selector-attr,
+.hljs-selector-pseudo,
+.hljs-keyword,
+.hljs-meta .hljs-keyword,
+.hljs-literal,
+.hljs-name,
+.hljs-built_in,
+.hljs-type {
+    color: var(--color-chart-1);
+}
+.hljs-property,
+.hljs-attr {
+    color: var(--color-primary);
+}
+.hljs-attribute {
+    color: var(--color-chart-2);
+}
+.hljs-number {
+    color: var(--color-chart-3);
+}
+.hljs-regexp {
+    color: var(--color-chart-4);
+}
+.hljs-link {
+    text-decoration: underline;
+    color: var(--color-primary);
+}
+.hljs-meta .hljs-string,
+.hljs-string {
+    color: var(--color-success);
+}
+.hljs-char.escape_ {
+    color: var(--color-chart-5);
+}
+.hljs-doctag {
+    text-decoration: underline;
+}
+.hljs-template-variable {
+    color: var(--color-accent-foreground);
+}
+.hljs-addition {
+    background: var(--color-success);
+}
+.hljs-deletion {
+    background: var(--color-muted);
+}
+.hljs-emphasis {
+    font-style: italic;
+}
+.hljs-strong {
+    font-weight: bold;
 }

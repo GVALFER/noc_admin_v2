@@ -18,8 +18,23 @@ import { toast } from "sonner";
 import { CopyIcon, PlusIcon, Trash2Icon } from "lucide-react";
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp";
 import { InputNumber } from "@/components/ui/input-number";
+import { MarkdownEditor } from "@/components/ui/markdown-editor";
 
-type FieldType = "input" | "textarea" | "password" | "checkbox" | "switch" | "radio" | "select" | "tags" | "datepicker" | "dropzone" | "slider" | "inputOtp" | "inputNumber";
+type FieldType =
+    | "input"
+    | "textarea"
+    | "password"
+    | "checkbox"
+    | "switch"
+    | "radio"
+    | "select"
+    | "tags"
+    | "datepicker"
+    | "dropzone"
+    | "slider"
+    | "inputOtp"
+    | "inputNumber"
+    | "markdown";
 
 type Field = {
     id: string;
@@ -310,6 +325,7 @@ function SelectType(props: { value: FieldType; onChange: (t: FieldType) => void 
         { value: "dropzone", label: "Dropzone" },
         { value: "slider", label: "Slider" },
         { value: "inputOtp", label: "InputOTP" },
+        { value: "markdown", label: "Markdown" },
     ];
     return (
         <div className="flex items-center gap-2">
@@ -384,6 +400,8 @@ function PreviewField({ field }: { field: Field }) {
                     </InputOTPGroup>
                 </InputOTP>
             );
+        case "markdown":
+            return <MarkdownEditor value={""} onChange={() => {}} />;
         default:
             return null;
     }
@@ -428,6 +446,9 @@ function zodForField(f: Field): string {
         case "inputOtp":
             base = "z.string()";
             break;
+        case "markdown":
+            base = "z.string()";
+            break;
         case "checkbox":
         case "switch":
             base = "z.boolean()";
@@ -463,6 +484,7 @@ function defaultForField(f: Field): string {
         case "textarea":
         case "password":
         case "inputOtp":
+        case "markdown":
             return f.required ? `""` : `""`;
         case "checkbox":
         case "switch":
@@ -768,6 +790,20 @@ function jsxForField(f: Field): string {
   )}
 />`;
 
+        case "markdown":
+            return `<FormField
+control={form.control}
+name="${n}"
+render={({ field }) => (
+    <FormItem>
+        <FormLabel>${L}</FormLabel>
+        <FormControl>
+            <MarkdownEditor name={field.name} value={field.value} onChange={field.onChange} onBlur={field.onBlur} className="w-full" />
+        </FormControl>
+        <FormMessage />
+    </FormItem>
+)}
+/>`;
         default:
             return "";
     }
@@ -807,6 +843,7 @@ function generateCode({ formName, endpoint, fields }: { formName: string; endpoi
     if (usedTypes.has("dropzone")) imports.push('import { Dropzone } from "@/components/ui/dropzone";');
     if (usedTypes.has("tags")) imports.push('import { Tags } from "@/components/ui/tags";');
     if (usedTypes.has("inputOtp")) imports.push('import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp";');
+    if (usedTypes.has("markdown")) imports.push('import { MarkdownEditor } from "@/components/ui/markdown-editor";');
 
     const functions = `const onSubmit = (values: z.infer<typeof FormSchema>) => {
     console.log(values);

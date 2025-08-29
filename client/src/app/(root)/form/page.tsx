@@ -18,6 +18,7 @@ import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Tags } from "@/components/ui/tags";
+import { MarkdownEditor } from "@/components/ui/markdown-editor";
 
 const onlyAZ09 = /^[A-Za-z0-9]+$/;
 const formSchema = z.object({
@@ -39,6 +40,7 @@ const formSchema = z.object({
         .refine((arr) => arr.every((t) => onlyAZ09.test(t)), {
             message: "Apenas letras e números",
         }),
+    editor: z.string().optional(),
 });
 
 export default function MyForm() {
@@ -58,6 +60,7 @@ export default function MyForm() {
             textarea: "",
             radiogroup: "all",
             tags: ["react", "nextjs"],
+            editor: "",
         },
     });
 
@@ -329,6 +332,20 @@ export default function MyForm() {
                                 <FormLabel>Tags</FormLabel>
                                 <FormControl>
                                     <Tags name={field.name} value={field.value ?? []} onValueChange={field.onChange} onBlur={field.onBlur} placeholder="Type and press [Enter]" />
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+
+                    <FormField
+                        control={form.control}
+                        name="editor"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>Conteúdo</FormLabel>
+                                <FormControl>
+                                    <MarkdownEditor name={field.name} value={field.value} onChange={field.onChange} onBlur={field.onBlur} className="w-full" />
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>

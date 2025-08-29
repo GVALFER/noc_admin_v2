@@ -3,6 +3,7 @@
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { createTableUrlSync } from "@/lib/api/buildTableParams";
 import { ColumnDef, getCoreRowModel, useReactTable, flexRender } from "@tanstack/react-table";
+import { Pagination } from "./pagination";
 
 export interface PaginationProps {
     pageIndex: number;
@@ -106,8 +107,23 @@ export const NextTable = <TData extends object>({
             </table>
 
             {showPagination && (
-                <div className="flex items-center gap-2">
-                    <button className="border px-3 h-9 rounded disabled:opacity-50" onClick={() => table.previousPage()} disabled={!table.getCanPreviousPage()}>
+                <div className="flex justify-center w-full mt-10">
+                    <Pagination
+                        page={sync.state.pageIndex + 1}
+                        totalPages={pagination.totalPages}
+                        onPageChange={(p) =>
+                            sync.onPaginationChange({
+                                pageIndex: p - 1,
+                                pageSize: sync.state.pageSize,
+                            })
+                        }
+                        className="mt-2"
+                        siblingCount={1}
+                        boundaryCount={1}
+                    />
+                </div>
+            )}
+            {/*<button className="border px-3 h-9 rounded disabled:opacity-50" onClick={() => table.previousPage()} disabled={!table.getCanPreviousPage()}>
                         « Anterior
                     </button>
                     <span>
@@ -115,9 +131,7 @@ export const NextTable = <TData extends object>({
                     </span>
                     <button className="border px-3 h-9 rounded disabled:opacity-50" onClick={() => table.nextPage()} disabled={!table.getCanNextPage()}>
                         Seguinte »
-                    </button>
-                </div>
-            )}
+                    </button>*/}
         </div>
     );
 };

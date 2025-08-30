@@ -32,7 +32,7 @@ const toneClass: Record<SpinnerColor, string> = {
     accent: "text-accent",
 };
 
-export default function Spinner({ size = "md", variant = "classic", color = "default", className }: SpinnerProps) {
+export const Spinner = ({ size = "md", variant = "classic", color = "default", className }: SpinnerProps) => {
     const s = sizeMap[size];
     const tone = toneClass[color];
 
@@ -111,4 +111,4 @@ export default function Spinner({ size = "md", variant = "classic", color = "def
             })}
         </span>
     );
-}
+};

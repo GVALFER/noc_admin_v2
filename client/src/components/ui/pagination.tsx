@@ -88,8 +88,8 @@ export const Pagination = ({ page, totalPages, onPageChange, className, siblingC
             <ul ref={listRef} className="relative flex items-center gap-1">
                 <div
                     ref={limelightRef}
-                    className={cn("absolute top-0 z-10 w-9 h-9 rounded-full bg-primary shadow-xl", isReady ? "transition-[left] duration-300 ease-in-out" : "")}
-                    style={{ left: "-999px" }}
+                    className={cn("absolute top-0 z-10 w-9 h-9 rounded-[12px] bg-primary ring-4 ring-primary/25", isReady ? "transition-[left] duration-300 ease-in-out" : "")}
+                    style={{ left: "-9999px" }}
                 />
 
                 {items.map((item, index) =>

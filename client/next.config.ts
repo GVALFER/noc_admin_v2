@@ -7,6 +7,14 @@ const nextConfig: NextConfig = {
     async rewrites() {
         return [{ source: "/proxy/:path*", destination: `${API_BASE}/:path*` }];
     },
+    images: {
+        remotePatterns: [
+            {
+                protocol: "https",
+                hostname: "www.gravatar.com",
+            },
+        ],
+    },
 };
 
 export default nextConfig;

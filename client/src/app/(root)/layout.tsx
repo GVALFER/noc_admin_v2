@@ -6,9 +6,10 @@ import { Session } from "@/types/session";
 import { api } from "@/lib/api/fetcher";
 import { unauthorizedRedirection } from "@/lib/api/unauthorizedRedirection";
 import { ThemeProvider } from "@/providers/themeProvider";
-import Header from "@/components/layout/header";
 const inter = Inter({ subsets: ["latin"] });
 import { Toaster } from "sonner";
+import { SidebarProvider } from "@/providers/sidebarProvider";
+import Wrapper from "@/components/layout/wrapper";
 
 const RootLayout = async ({ children }: Readonly<{ children: React.ReactNode }>) => {
     let session = null;
@@ -24,8 +25,9 @@ const RootLayout = async ({ children }: Readonly<{ children: React.ReactNode }>)
                 <SessionProvider value={session}>
                     <QueryProvider>
                         <ThemeProvider>
-                            <Header />
-                            {children}
+                            <SidebarProvider>
+                                <Wrapper>{children}</Wrapper>
+                            </SidebarProvider>
                             <Toaster position="top-right" closeButton={true} />
                         </ThemeProvider>
                     </QueryProvider>

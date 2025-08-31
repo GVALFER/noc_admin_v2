@@ -29,7 +29,9 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(({ className
     if (startContent || endContent) {
         return (
             <div className={cn("relative flex w-full items-center", className)}>
-                {startContent && <div className="absolute left-2 z-10 flex items-center pointer-events-auto">{startContent}</div>}
+                {startContent && (
+                    <div className="text-muted-foreground absolute inset-y-0 start-0 flex items-center justify-center ps-3 peer-disabled:opacity-50">{startContent}</div>
+                )}
                 <input
                     ref={ref}
                     type={type}

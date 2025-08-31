@@ -21,7 +21,7 @@ export default async function Page({ searchParams }: { searchParams: Promise<URL
         .catch(() => errorProps);
 
     return (
-        <div className="p-28">
+        <div className="">
             <UsersTable initialData={data} />
         </div>
     );

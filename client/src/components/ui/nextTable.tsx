@@ -1,12 +1,12 @@
 "use client";
 
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { createTableUrlSync } from "@/lib/api/buildTableParams";
-import { ColumnDef, getCoreRowModel, useReactTable, flexRender } from "@tanstack/react-table";
-import { Pagination } from "./pagination";
-import { ChevronDown, ChevronUp } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Spinner } from "@/components/ui/spinner";
+import { Pagination } from "@/components/ui/pagination";
+import { createTableUrlSync } from "@/lib/api/buildTableParams";
+import { ColumnDef, flexRender, getCoreRowModel, useReactTable } from "@tanstack/react-table";
+import { ChevronDown, ChevronUp } from "lucide-react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 export interface PaginationProps {
     pageIndex: number;
@@ -35,7 +35,6 @@ export const NextTable = <TData extends object>({
     pageSizeOptions = [2, 5, 10, 20, 50, 100],
     searchPlaceholder = "Search…",
     getRowId,
-    isLoading,
 }: NextTableProps<TData>) => {
     const pathname = usePathname();
     const router = useRouter();
@@ -77,8 +76,26 @@ export const NextTable = <TData extends object>({
     return (
         <div className="space-y-4">
             <div className="flex flex-wrap items-center gap-2">
-                <Input className="w-full max-w-sm" placeholder={searchPlaceholder} defaultValue={sync.state.globalFilter} onChange={(e) => table.setGlobalFilter(e.target.value)} />
-                {isLoading && <Spinner className="ml-1" />}
+                <Input
+                    endContent={
+                        <Button
+                            className={!sync.state.globalFilter ? "hidden" : ""}
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => table.setGlobalFilter("")}
+                            disabled={!sync.state.globalFilter}
+                            tabIndex={-1}
+                            aria-label="Clear search"
+                        >
+                            ✕
+                        </Button>
+                    }
+                    className="w-full max-w-sm"
+                    placeholder={searchPlaceholder}
+                    value={sync.state.globalFilter ?? ""}
+                    onChange={(e) => table.setGlobalFilter(e.target.value)}
+                    autoComplete="off"
+                />
             </div>
 
             <div className="rounded border border-border bg-card overflow-hidden">

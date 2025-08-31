@@ -6,6 +6,7 @@ import { api } from "@/lib/api/fetcher";
 import { normalizeParams } from "@/lib/api/buildTableParams";
 import { NextTable, PaginationProps } from "@/components/ui/nextTable";
 import { ColumnDef } from "@tanstack/react-table";
+import { Header } from "@/components/ui/header";
 
 type ApiData<T> = { data: T[]; pagination: PaginationProps };
 
@@ -32,11 +33,17 @@ export const columns = [
 export default function Page({ initialData }: { initialData: ApiData<User> }) {
     const { urlQuery } = normalizeParams({ searchParams: useSearchParams() });
 
-    const { data, isFetching } = useQuery<ApiData<User>>({
+    const { data } = useQuery<ApiData<User>>({
         queryKey: ["users", urlQuery],
         queryFn: async () => api.get(`users?${urlQuery}`).json<ApiData<User>>(),
         initialData,
+        refetchOnMount: false,
     });
 
-    return <NextTable columns={columns} data={data} isLoading={isFetching} />;
+    return (
+        <>
+            <Header title="Users" description="Browse and manage all registered users in the system." />
+            <NextTable columns={columns} data={data} />
+        </>
+    );
 }

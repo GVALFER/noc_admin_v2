@@ -1,14 +1,14 @@
 "use client";
-import { api } from "@/lib/api/fetcher";
-import { toast } from "sonner";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
 import { Button } from "@/components/ui/button";
-import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Password } from "@/components/ui/password";
 import { InputNumber } from "@/components/ui/input-number";
+import { Password } from "@/components/ui/password";
+import { api } from "@/lib/api/fetcher";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import { z } from "zod";
 
 const Page = () => {
     const FormSchema = z.object({
@@ -41,53 +41,57 @@ const Page = () => {
     });
 
     return (
-        <div className="flex-col  min-h-screen p-8 gap-16 ">
-            <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 max-w-2xl">
-                    <FormField
-                        control={form.control}
-                        name="email"
-                        render={({ field }) => (
-                            <FormItem>
-                                <FormLabel>Email</FormLabel>
-                                <FormControl>
-                                    <Input {...field} type="email" />
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
+        <div className="">
+            <Header title="Dashboard" description="Browse and manage all registered users in the system." />
 
-                    <FormField
-                        control={form.control}
-                        name="password"
-                        render={({ field }) => (
-                            <FormItem>
-                                <FormLabel>Password</FormLabel>
-                                <FormControl>
-                                    <Password {...field} />
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
+            <div className="bg-muted/60 p-4 aspect-video rounded-xl">
+                <Form {...form}>
+                    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 max-w-2xl">
+                        <FormField
+                            control={form.control}
+                            name="email"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Email</FormLabel>
+                                    <FormControl>
+                                        <Input {...field} type="email" />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
 
-                    <FormField
-                        control={form.control}
-                        name="number"
-                        render={({ field }) => (
-                            <FormItem>
-                                <FormLabel>Number Form</FormLabel>
-                                <FormControl>
-                                    <InputNumber {...field} min={0} max={100} step={0.1} allowNegative={false} precision={2} allowDecimal={true} className="w-40" />
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
-                    <Button type="submit">Submit</Button>
-                </form>
-            </Form>
+                        <FormField
+                            control={form.control}
+                            name="password"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Password</FormLabel>
+                                    <FormControl>
+                                        <Password {...field} />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+
+                        <FormField
+                            control={form.control}
+                            name="number"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Number Form</FormLabel>
+                                    <FormControl>
+                                        <InputNumber {...field} min={0} max={100} step={1} allowNegative={false} className="w-40" />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <Button type="submit">Submit</Button>
+                    </form>
+                </Form>
+            </div>
         </div>
     );
 };

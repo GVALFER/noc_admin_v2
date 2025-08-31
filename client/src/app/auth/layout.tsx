@@ -1,5 +1,5 @@
 import "@/styles/globals.css";
-import { SessionResponse } from "@/types/session";
+import { Session } from "@/types/session";
 import { api } from "@/lib/api/fetcher";
 import { redirect } from "next/navigation";
 import { ThemeProvider } from "@/providers/themeProvider";
@@ -7,7 +7,7 @@ import { ThemeProvider } from "@/providers/themeProvider";
 const RootLayout = async ({ children }: Readonly<{ children: React.ReactNode }>) => {
     const session = await api
         .get("auth/get-session")
-        .json<SessionResponse>()
+        .json<Session>()
         .catch(() => null);
 
     if (session) {

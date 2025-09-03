@@ -6,9 +6,9 @@ import { Session } from "@/types/session";
 import { api } from "@/lib/api/fetcher";
 import { unauthorizedRedirection } from "@/lib/api/unauthorizedRedirection";
 import { ThemeProvider } from "@/providers/themeProvider";
-import Header from "@/components/layout/header";
 const inter = Inter({ subsets: ["latin"] });
 import { Toaster } from "sonner";
+import { Header } from "@/components/ui/header";
 
 const RootLayout = async ({ children }: Readonly<{ children: React.ReactNode }>) => {
     let session = null;

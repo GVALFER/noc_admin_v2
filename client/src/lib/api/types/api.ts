@@ -1,4 +1,3 @@
-// types/api.ts
 export type As = "json" | "text" | "blob" | "response";
 
 export type CreateOptions = { base?: string };
@@ -29,3 +28,15 @@ export type RequestArgs = {
     opts?: RequestOptions;
     data?: BodyOptions;
 };
+
+export type ApiError = {
+    status: number;
+    error: string;
+    code?: string | undefined;
+    message: string;
+    [k: string]: unknown;
+};
+
+export interface StatusError extends Error {
+    status?: number;
+}

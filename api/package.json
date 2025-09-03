@@ -14,7 +14,7 @@
   "dependencies": {
     "@fastify/cookie": "^11.0.1",
     "@fastify/cors": "^11.1.0",
-    "@prisma/client": "^6.11.1",
+    "@prisma/client": "^6.15.0",
     "bcryptjs": "^3.0.2",
     "dayjs": "^1.11.12",
     "dotenv": "^16.4.5",
@@ -25,6 +25,6 @@
   },
   "devDependencies": {
     "@prisma/studio": "^0.503.0",
-    "prisma": "^6.11.1"
+    "prisma": "^6.15.0"
   }
 }

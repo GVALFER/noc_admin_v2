@@ -828,6 +828,7 @@ function generateCode({ formName, endpoint, fields }: { formName: string; endpoi
     imports.push('import { z } from "zod";');
     imports.push('import { Button } from "@/components/ui/button";');
     imports.push('import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/components/ui/form";');
+    imports.push('import { useMutation, useQueryClient } from "@tanstack/react-query";');
 
     // Conditional imports based on used components
     if (usedTypes.has("input")) imports.push('import { Input } from "@/components/ui/input";');
@@ -845,11 +846,11 @@ function generateCode({ formName, endpoint, fields }: { formName: string; endpoi
     if (usedTypes.has("inputOtp")) imports.push('import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp";');
     if (usedTypes.has("markdown")) imports.push('import { MarkdownEditor } from "@/components/ui/markdown-editor";');
 
-    const functions = `const onSubmit = (values: z.infer<typeof FormSchema>) => {
+    const functions = `const mutate = (values: z.infer<typeof ${safeName}Schema>) => {
     console.log(values);
 
     api.post("${endpoint}")
-       .json(values)
+       .json()
        .then(() => {
             toast.success("Form submitted successfully!");
             form.reset();
@@ -858,6 +859,23 @@ function generateCode({ formName, endpoint, fields }: { formName: string; endpoi
             toast.error("Failed to submit form");
        });
 };
+
+// OR
+
+const query = useQueryClient();
+const { mutate } = useMutation({
+    mutationFn: (values: z.infer<typeof ${safeName}Schema>) => {
+        return api.put("${endpoint}", { json: {} }).json();
+    },
+    onSuccess: () => {
+        toast.success("Form submitted successfully!");
+        query.invalidateQueries({ queryKey: ["users"] });
+        setOpenModal(false);
+    },
+    onError: () => {
+        toast.error("Failed to submit form");
+    },
+});
 
 const form = useForm<z.infer<typeof ${safeName}Schema>>({
     resolver: zodResolver(${safeName}Schema),
@@ -873,7 +891,7 @@ ${schemaLines.join("\n")}
 export type ${safeName}Values = z.infer<typeof ${safeName}Schema>;`;
 
     const form = `<Form {...form}>
-    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 max-w-2xl">
+    <form onSubmit={form.handleSubmit((val) => mutate(val))} className="space-y-6 max-w-2xl">
 ${jsxBlocks
     .split("\n")
     .map((l) => "        " + l)

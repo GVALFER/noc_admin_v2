@@ -1,4 +1,4 @@
-import md5 from "md5";
+import crypto from "crypto";
 
 export type GravatarProps = {
     email: string;
@@ -6,9 +6,9 @@ export type GravatarProps = {
     fallback?: string;
 };
 
-export const gravatarUrl = ({ email, size, fallback }: GravatarProps) => {
+export const getGravatar = ({ email, size, fallback }: GravatarProps) => {
     const base = "https://www.gravatar.com/avatar/";
-    const hash = md5(email.trim().toLowerCase());
+    const hash = crypto.createHash("md5").update(email.trim().toLowerCase()).digest("hex");
     const finalSize = size ?? 80;
     const finalFallback = fallback ?? "identicon";
     return `${base}${hash}?s=${finalSize}&d=${finalFallback}`;

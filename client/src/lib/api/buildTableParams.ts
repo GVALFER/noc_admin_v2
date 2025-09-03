@@ -1,47 +1,4 @@
-interface SortingColumn {
-    id: string;
-    desc: boolean;
-}
-
-interface TableState {
-    pageIndex: number;
-    pageSize: number;
-    globalFilter: string;
-    sorting: SortingColumn[];
-}
-
-interface PaginationState {
-    pageIndex: number;
-    pageSize: number;
-}
-
-interface Router {
-    push: (url: string) => void;
-    replace: (url: string) => void;
-}
-
-interface TablePatchToUrlParams {
-    router: Router;
-    pathname: string;
-    searchParams: URLSearchParams | Record<string, string> | string;
-    patch: Record<string, string | number | null | undefined>;
-    method?: "push" | "replace";
-}
-
-interface CreateTableUrlSyncParams {
-    router: Router;
-    pathname: string;
-    searchParams: URLSearchParams | Record<string, string> | string;
-}
-
-export interface FetchTableResponse {
-    data: unknown[];
-    pagination: { pageIndex: number; pageSize: number; totalPages: number; totalItems: number };
-}
-
-type SearchParamsType = URLSearchParams | Record<string, string> | string | { [key: string]: string | string[] | undefined };
-
-type NormalizeParamsInput = { params: Record<string, string | string[]>; defaults?: Partial<TableState> } | { searchParams: SearchParamsType; defaults?: Partial<TableState> };
+import { CreateTableUrlSyncParams, NormalizeParamsInput, PaginationState, SearchParamsType, SortingColumn, TablePatchToUrlParams, TableState } from "./types/buildTableParams";
 
 const convertToURLSearchParams = (searchParams: SearchParamsType): URLSearchParams => {
     if (searchParams instanceof URLSearchParams) {

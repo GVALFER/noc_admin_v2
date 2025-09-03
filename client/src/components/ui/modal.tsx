@@ -8,7 +8,7 @@ import * as React from "react";
 type ModalSize = "auto" | "sm" | "md" | "lg" | "xl" | "full" | "2xl" | "3xl" | "4xl" | "5xl" | "6xl" | "7xl";
 type ModalPosition = "center" | "top" | "bottom";
 type ModalBackdrop = "opaque" | "blur" | "transparent" | "opaue";
-type ModalShadow = "shadow-xs" | "shadow" | "shadow-md" | "shadow-lg" | "shadow-xl" | "shadow-2xl";
+type ModalShadow = "shadow-xs" | "shadow" | "shadow-md" | "shadow-lg" | "shadow-xl" | "shadow-2xl" | "shadow-soft";
 
 export interface ModalProps extends Omit<React.ComponentProps<typeof DialogPrimitive.Root>, "modal"> {
     size?: ModalSize;
@@ -16,8 +16,8 @@ export interface ModalProps extends Omit<React.ComponentProps<typeof DialogPrimi
     position?: ModalPosition;
     backdrop?: ModalBackdrop;
     shadow?: ModalShadow;
-    header?: React.ReactNode;
-    description?: React.ReactNode;
+    header?: React.ReactElement | string;
+    description?: React.ReactElement | string;
     footer?: React.ReactNode;
     className?: string;
     children?: React.ReactNode;
@@ -27,8 +27,8 @@ export function Modal({
     size = "md",
     dismissible = true,
     position = "center",
-    backdrop = "opaque",
-    shadow = "shadow",
+    backdrop = "blur",
+    shadow = "shadow-soft",
     header,
     description,
     footer,
@@ -94,25 +94,27 @@ export function Modal({
                     )}
                     {...blockClose}
                 >
-                    <DialogPrimitive.DialogTitle asChild>{header || ""}</DialogPrimitive.DialogTitle>
-                    <DialogPrimitive.DialogDescription asChild>{description || ""}</DialogPrimitive.DialogDescription>
+                    <DialogPrimitive.DialogTitle asChild>
+                        {typeof header === "string" ? <div className="text-lg font-semibold leading-none tracking-tight">{header}</div> : header || ""}
+                    </DialogPrimitive.DialogTitle>
+                    <DialogPrimitive.DialogDescription asChild>
+                        {typeof description === "string" ? <div className="text-sm text-muted-foreground mt-2">{description}</div> : description || ""}
+                    </DialogPrimitive.DialogDescription>
 
-                    <div className="flex-1 mt-3">{children}</div>
+                    <div className="flex-1 mt-5">{children}</div>
 
                     {footer ? <div className="mt-auto pt-4 flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">{footer}</div> : null}
 
-                    {dismissible && (
-                        <DialogPrimitive.Close
-                            className={cn(
-                                "absolute top-4 right-4 rounded-xs opacity-70 transition-opacity",
-                                "hover:opacity-100 focus:outline-hidden focus:ring-2 focus:ring-ring focus:ring-offset-2",
-                                "ring-offset-background",
-                            )}
-                            aria-label="Close"
-                        >
-                            <X color="red" size={20} />
-                        </DialogPrimitive.Close>
-                    )}
+                    <DialogPrimitive.Close
+                        className={cn(
+                            "absolute top-4 right-4 rounded-xs opacity-70 transition-opacity",
+                            "hover:opacity-100 focus:outline-hidden focus:ring-2 focus:ring-ring focus:ring-offset-2",
+                            "ring-offset-background",
+                        )}
+                        aria-label="Close"
+                    >
+                        <X size={20} />
+                    </DialogPrimitive.Close>
                 </DialogPrimitive.Content>
             </DialogPrimitive.Portal>
         </DialogPrimitive.Root>

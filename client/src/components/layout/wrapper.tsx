@@ -72,9 +72,9 @@ const Wrapper = ({ children, ...props }: { children: React.ReactNode }) => {
                 icon: UserCog,
                 isActive: false,
                 items: [
-                    { title: "Admins", url: "admins", icon: UserCog },
-                    { title: "Partners", url: "partners", icon: Handshake },
-                    { title: "To-Dos", url: "to-dos", icon: ListChecks },
+                    { title: "Admins", url: "administration/admins", icon: UserCog },
+                    { title: "Partners", url: "administration/partners", icon: Handshake },
+                    { title: "To-Dos", url: "administration/to-dos", icon: ListChecks },
                 ],
             },
             {
@@ -128,7 +128,6 @@ const Wrapper = ({ children, ...props }: { children: React.ReactNode }) => {
                     <NavSystem items={data.system} />
                 </SidebarContent>
                 <SidebarFooter>
-                    <Separator className="my-2" />
                     <ThemeToggle />
                 </SidebarFooter>
             </Sidebar>

@@ -4,7 +4,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Separator } from "@/components/ui/separator";
 import { api } from "@/lib/api/fetcher";
-import { gravatarUrl } from "@/lib/common/getGravatar";
+import { getGravatar } from "@/lib/common/getGravatar";
 import { useSession } from "@/providers/sessionProvider";
 import { LogOut, User } from "lucide-react";
 import Link from "next/link";
@@ -14,7 +14,7 @@ import { toast } from "sonner";
 export const Userbar = () => {
     const session = useSession();
     const router = useRouter();
-    const avatarUrl = gravatarUrl({ email: session?.email || "", size: 100 }) || "";
+    const avatarUrl = getGravatar({ email: session?.email || "", size: 100 }) || "";
 
     const handleLogout = () => {
         api.post("auth/logout")

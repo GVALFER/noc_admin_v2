@@ -7,6 +7,7 @@ export const content = async (req, reply) => {
             query: req.query,
             where: (q) => ({
                 OR: [{ name: { contains: q } }],
+                AND: [{ role: "USER" }],
             }),
         });
 

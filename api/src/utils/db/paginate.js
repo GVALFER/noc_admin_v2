@@ -25,6 +25,7 @@ const parseSorting = (sortingStr, allowedSort = []) => {
     return parts.length ? parts : [{ created_at: "desc" }];
 };
 
+// Pass Prisma types to be accessed via the second argument
 export const paginate = async ({ table, query = {}, allowedSort = [], where = {}, select, include, ...rest }) => {
     if (!prisma) throw new Error("Missing 'prisma' parameter");
     if (!table) throw new Error("Missing 'table' parameter (ex: 'users')");

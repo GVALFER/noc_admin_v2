@@ -13,6 +13,10 @@ export const badgeVariants = cva(
                 destructive:
                     "border-transparent bg-destructive text-white [a&]:hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60",
                 outline: "text-foreground [a&]:hover:bg-accent [a&]:hover:text-accent-foreground",
+                success: "border-transparent bg-success text-success-foreground [a&]:hover:bg-success/90",
+                "outline-success": "text-success border-success/50 [a&]:hover:bg-success/10",
+                "outline-default": "text-primary border-primary/50 [a&]:hover:bg-primary/10",
+                "outline-destructive": "text-destructive border-destructive/50 [a&]:hover:bg-destructive/10",
             },
         },
         defaultVariants: {

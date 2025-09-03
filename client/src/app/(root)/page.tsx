@@ -1,6 +1,8 @@
 "use client";
+import { Block } from "@/components/ui/block";
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Header } from "@/components/ui/header";
 import { Input } from "@/components/ui/input";
 import { InputNumber } from "@/components/ui/input-number";
 import { Password } from "@/components/ui/password";
@@ -44,7 +46,7 @@ const Page = () => {
         <div className="">
             <Header title="Dashboard" description="Browse and manage all registered users in the system." />
 
-            <div className="bg-muted/60 p-4 aspect-video rounded-xl">
+            <Block>
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 max-w-2xl">
                         <FormField
@@ -91,7 +93,7 @@ const Page = () => {
                         <Button type="submit">Submit</Button>
                     </form>
                 </Form>
-            </div>
+            </Block>
         </div>
     );
 };
